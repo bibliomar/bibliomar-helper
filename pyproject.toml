@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "bibliomar-helper"
+version = "0.1.0"
+description = "Diverse helper scripts for Bibliomar."
+authors = ["Lamarcke <cassiolamarcksilvafreitas@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "bibliomar_helper"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pymysql = "^1.0.2"
+python-dotenv = "^0.21.0"
+pydantic = "^1.10.4"
+meilisearch = "^0.23.0"
+
+[tool.poetry.group.dev.dependencies]
+black = "^22.12.0"
+flake8 = "^6.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
