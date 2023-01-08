@@ -1,4 +1,6 @@
-from pydantic import BaseSettings
+from pydantic import BaseModel, BaseSettings, Field
+
+md5_reg = "^[0-9a-fA-F]{32}$"
 
 
 class MYSQLCredentials(BaseSettings):
@@ -11,3 +13,14 @@ class MYSQLCredentials(BaseSettings):
 
 class MEILICredentials(BaseSettings):
     MEILI_URL: str
+
+
+class SearchEntry(BaseModel):
+    authors: str
+    title: str
+    md5: str = Field(..., regex=md5_reg)
+    topic: str
+    extension: str
+    size: str
+    language: str | None
+    cover_url: str | None
