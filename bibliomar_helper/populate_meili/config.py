@@ -13,11 +13,17 @@ from bibliomar_helper.populate_meili.model import (
 
 import os
 
-search_limit = 500000
-
 load_dotenv()
 mysql_credentials = MYSQLCredentials()  # type: ignore
 meili_credentials = MEILICredentials()  # type: ignore
+
+
+def get_environ_limit():
+    environ_limit = os.environ.get("POPULATE_LIMIT")
+    if environ_limit is None or environ_limit == "":
+        return 10000
+    else:
+        return int(environ_limit)
 
 
 def configure_sqlite(conn: Connection):

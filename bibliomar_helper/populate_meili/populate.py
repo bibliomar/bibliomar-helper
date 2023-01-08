@@ -1,7 +1,8 @@
+import os
 from bibliomar_helper.populate_meili.config import (
     connect_to_meili,
     connect_to_mysql,
-    search_limit,
+    get_environ_limit,
 )
 from bibliomar_helper.populate_meili.helper import (
     get_current_offset,
@@ -13,7 +14,7 @@ from bibliomar_helper.populate_meili.helper import (
 def populate_meilisearch(topic: str):
     get_offset = get_current_offset()
     offset = get_offset[topic]
-    limit = search_limit
+    limit = get_environ_limit()
 
     meili_client = connect_to_meili()
     meili_index = meili_client.index("books")
@@ -25,6 +26,12 @@ def populate_meilisearch(topic: str):
     max_wait_timeout = 10 * 60 * 1000
 
     while True:
+
+        # Remove on prod
+        if offset >= 500000:
+            print("Limiting in dev environment")
+            break
+
         sql = f"""
         SELECT * FROM {table} LIMIT %s OFFSET %s
         """
