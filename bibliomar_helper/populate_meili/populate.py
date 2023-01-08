@@ -50,7 +50,10 @@ def populate_meilisearch(topic: str):
         offset += limit
         if results is None or len(results) < limit:
             break
-        print("Saving current offset...")
-        save_current_offset(topic, offset)
+
+        task_status = meili_index.get_task(task_id)
+        if task_status.status == "succeeded":
+            print("Saving current offset...")
+            save_current_offset(topic, offset)
 
     conn.close()
