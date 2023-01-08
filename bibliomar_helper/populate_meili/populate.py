@@ -28,9 +28,9 @@ def populate_meilisearch(topic: str):
     while True:
 
         # Remove on prod
-        if offset >= 500000:
-            print("Limiting in dev environment")
-            break
+        # if offset >= 500000:
+        #     print("Limiting in dev environment")
+        #     break
 
         sql = f"""
         SELECT * FROM {table} LIMIT %s OFFSET %s
