@@ -58,21 +58,21 @@ def populate_meilisearch(topic: str):
         results_as_models = results_to_entries(topic, results)
         print(f"Using {len(results_as_models)} of {len(results)} results.")
 
-        task = meili_index.add_documents(results_as_models)
-        task_id = task.task_uid
-        print("Waiting for task: ", task_id)
+        tasks = meili_index.add_documents_in_batches(results_as_models)
+        print("Waiting for tasks...")
 
-        meili_index.wait_for_task(
-            task_id, timeout_in_ms=max_wait_timeout, interval_in_ms=2000
-        )
+        done = False
 
-        print("Task done: ", task_id)
+        for task in tasks:
+            task_id = task.task_uid
+            meili_index.wait_for_task(
+                task_id, timeout_in_ms=max_wait_timeout, interval_in_ms=1000
+            )
+            print("Task done: ", task_id)
 
-        task_status = meili_index.get_task(task_id)
-        if task_status.status == "succeeded":
-            print(f"Finished saving books between {offset} and {offset + limit}.")
-            print("Saving current offset to local database...")
-            save_current_offset(topic, offset)
-            # print("Waiting for 60 seconds before next batch...")
-            # time.sleep(60)
-            offset += limit
+        print(f"Finished saving books between {offset} and {offset + limit}.")
+        print("Saving current offset to local database...")
+        save_current_offset(topic, offset)
+        # print("Waiting for 60 seconds before next batch...")
+        # time.sleep(60)
+        offset += limit
