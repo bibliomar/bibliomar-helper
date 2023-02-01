@@ -54,17 +54,25 @@ def populate_meilisearch(topic: str):
         print("Starting tasks...")
         tasks = meili_index.add_documents_in_batches(results_as_models)
 
-        for task in tasks:
-            task_id = task.task_uid
-            meili_index.wait_for_task(
-                task_id, timeout_in_ms=max_wait_timeout, interval_in_ms=2000
-            )
+        while True:
 
-            print("Task done: ", task_id)
+            tasks_are_finished = False
 
-            if task.status != "succeeded":
-                print("A task has failed. Pay close attention: ")
-                print(task)
+            for task in tasks:
+                task_id = task.task_uid
+                task_status = meili_client.get_task(task_id)
+
+                tasks_are_finished = True
+                if task_status == "enqueued":
+                    tasks_are_finished = False
+
+                    if task_status != "succeeded":
+                        print("A task has failed. Pay close attention: ")
+                        print(task)
+
+            if tasks_are_finished:
+                break
+            time.sleep(2)
 
         print(f"Finished saving books between {offset} and {offset + limit}.")
         print("Saving current offset to local database...")
