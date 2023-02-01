@@ -59,7 +59,7 @@ def populate_meilisearch(topic: str):
         print(f"Using {len(results_as_models)} of {len(results)} results.")
 
         print("Adding documents in batches...")
-        tasks = meili_index.add_documents_in_batches(results_as_models, batch_size=5000)
+        tasks = meili_index.add_documents_in_batches(results_as_models, batch_size=1000)
         print("Waiting for tasks...")
 
         done = False
