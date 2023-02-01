@@ -62,8 +62,10 @@ def populate_meilisearch(topic: str):
                 task_id = task.task_uid
                 task_status = meili_client.get_task(task_id)
 
-                if task_status == "enqueued":
+                if task_status == "enqueued" or task_status == "processing":
                     tasks_are_finished = False
+
+                else:
 
                     if task_status != "succeeded":
                         print("A task has failed. Pay close attention: ")
