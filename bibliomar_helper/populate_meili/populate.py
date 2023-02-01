@@ -57,10 +57,8 @@ def populate_meilisearch(topic: str):
             break
         results_as_models = results_to_entries(topic, results)
         print(f"Using {len(results_as_models)} of {len(results)} results.")
-        print(f"Parsing results to JSON...")
 
-        results_as_json = json.dumps(results_as_models)
-        task = meili_index.add_documents_json(results_as_json)
+        task = meili_index.add_documents(results_as_models)
         task_id = task.task_uid
         print("Waiting for task: ", task_id)
 
