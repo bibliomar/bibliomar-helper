@@ -67,14 +67,14 @@ def populate_meilisearch(topic: str):
                     tasks_are_finished = False
 
                 else:
-
                     if task_status != "succeeded":
                         print("A task has failed. Pay close attention: ")
                         print(task)
 
+                time.sleep(1)
+
             if tasks_are_finished:
                 break
-            time.sleep(2)
 
         print(f"Finished saving books between {offset} and {offset + limit}.")
         print("Saving current offset to local database...")
