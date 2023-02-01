@@ -60,7 +60,8 @@ def populate_meilisearch(topic: str):
 
             for task in tasks:
                 task_id = task.task_uid
-                task_status = meili_client.get_task(task_id)
+                task_info = meili_client.get_task(task_id)
+                task_status = task_info["status"]
 
                 if task_status == "enqueued" or task_status == "processing":
                     tasks_are_finished = False
