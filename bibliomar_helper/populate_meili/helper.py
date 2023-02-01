@@ -3,6 +3,7 @@
 
 
 import json
+
 from unittest import result
 from hurry.filesize import size, alternative
 from pydantic import ValidationError
@@ -11,7 +12,6 @@ from bibliomar_helper.populate_meili.model import SearchEntry
 from meilisearch import Client
 
 
-@staticmethod
 def bytes_to_size(size_to_convert: int | str):
     if size_to_convert is None or int(size_to_convert) == 0:
         return "0 B"
@@ -19,7 +19,6 @@ def bytes_to_size(size_to_convert: int | str):
     return size(int(size_to_convert), system=alternative)
 
 
-@staticmethod
 def resolve_cover_url(topic: str, cover_ref: str | None):
     libgen_fiction_base = "https://libgen.is/fictioncovers"
     libgen_scitech_base = "https://libgen.is/covers"
@@ -34,6 +33,16 @@ def resolve_cover_url(topic: str, cover_ref: str | None):
         cover_url = f"{libgen_scitech_base}/{cover_ref}"
 
     return cover_url
+
+
+def is_serializable(obj: dict) -> bool:
+    try:
+        dump = json.dumps(obj)
+        json.loads(dump)
+    except (TypeError, OverflowError, json.JSONDecodeError):
+        return False
+
+    return True
 
 
 def results_to_entries(topic: str, result_set: list[dict] | tuple[dict]) -> list[dict]:
@@ -62,15 +71,16 @@ def results_to_entries(topic: str, result_set: list[dict] | tuple[dict]) -> list
         result_as_model = {
             "authors": result.get("Author"),
             "title": result.get("Title"),
-            "md5": result.get("MD5"),
+            "MD5": result.get("MD5"),
             "topic": topic,
             "language": result.get("Language"),
             "extension": result.get("Extension"),
-            "size": bytes_to_size(result.get("Filesize")),  # type: ignore
-            "cover_url": resolve_cover_url(topic, result.get("Coverurl")),
+            "size": result.get("Filesize"),
+            "coverReference": result.get("Coverurl"),
         }
 
-        models_list.append(result_as_model)
+        if is_serializable(result_as_model):
+            models_list.append(result_as_model)
 
     return models_list
 

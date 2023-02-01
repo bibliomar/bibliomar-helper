@@ -13,6 +13,7 @@ class MYSQLCredentials(BaseSettings):
 
 class MEILICredentials(BaseSettings):
     MEILI_URL: str
+    MEILI_MASTER_KEY: str | None
 
 
 class SearchEntry(BaseModel):

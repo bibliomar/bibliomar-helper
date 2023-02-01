@@ -1,5 +1,6 @@
 from genericpath import isfile
 import json
+from typing import Optional
 from dotenv import load_dotenv
 from pymysql import connect
 from pymysql.cursors import DictCursor
@@ -65,6 +66,8 @@ def configure_meili(client: Client):
 
 def connect_to_meili():
     credentials = meili_credentials
+    # master_key = credentials.MEILI_MASTER_KEY
+    # client = Client(credentials.MEILI_URL, api_key=master_key)
     client = Client(credentials.MEILI_URL)
     configure_meili(client)
     return client
