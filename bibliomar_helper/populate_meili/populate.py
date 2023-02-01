@@ -1,5 +1,4 @@
 from json import JSONDecodeError
-import json
 import os
 import time
 from typing import Optional
@@ -39,11 +38,6 @@ def populate_meilisearch(topic: str):
             time.sleep(60)
             continue
 
-        # For testing environments
-        if offset >= 1000000:
-            print("Reached end of testing env offset.")
-            break
-
         sql = f"""
         SELECT * FROM {table} LIMIT %s OFFSET %s
         """
@@ -57,13 +51,24 @@ def populate_meilisearch(topic: str):
             break
         results_as_models = results_to_entries(topic, results)
         print(f"Using {len(results_as_models)} of {len(results)} results.")
+        print("Starting tasks...")
+        tasks = meili_index.add_documents_in_batches(results_as_models)
 
-        print("Adding documents in batches...")
-        tasks = meili_index.add_documents(results_as_models)
+        for task in tasks:
+            task_id = task.task_uid
+            meili_index.wait_for_task(
+                task_id, timeout_in_ms=max_wait_timeout, interval_in_ms=2000
+            )
+
+            print("Task done: ", task_id)
+
+            if task.status != "succeeded":
+                print("A task has failed. Pay close attention: ")
+                print(task)
 
         print(f"Finished saving books between {offset} and {offset + limit}.")
         print("Saving current offset to local database...")
         save_current_offset(topic, offset)
         # print("Waiting for 60 seconds before next batch...")
-        time.sleep(10)
+        # time.sleep(60)
         offset += limit

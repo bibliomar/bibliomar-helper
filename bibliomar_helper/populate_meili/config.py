@@ -58,7 +58,7 @@ def connect_to_mysql():
 
 
 def configure_meili(client: Client):
-    client.create_index("books", {"primaryKey": "md5"})
+    client.create_index("books", {"primaryKey": "MD5"})
     client.index("books").update_filterable_attributes(
         ["authors", "title", "topic", "extension", "language"]
     )
