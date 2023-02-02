@@ -57,7 +57,13 @@ def populate_manticore(topic: str):
 
         for result in results_as_models:
             request = build_single_manticore_request(result)
-            manticore_index.insert(request)
+            try:
+                manticore_index.insert(request)
+            except:
+                print("Exception while adding entry: ")
+                print(result)
+                print("Using request: ")
+                print(request)
 
         print(f"Finished saving books between {offset} and {offset + limit}.")
         print("Saving current offset to local database...")
