@@ -35,6 +35,7 @@ def populate_manticore(topic: str):
     while True:
 
         if offset > 1000:
+
             break
 
         sql = f"""
@@ -54,6 +55,7 @@ def populate_manticore(topic: str):
 
         for result in results_as_models:
             request = build_single_manticore_request(result)
+            print(request)
             manticore_index.insert(request)
 
         print(f"Finished saving books between {offset} and {offset + limit}.")
