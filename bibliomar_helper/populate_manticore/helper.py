@@ -120,23 +120,24 @@ def build_single_manticore_request(
         "index": "books",
         "id": 0,
         "doc": {
-            "title": str(result.get("title")),
-            "MD5": str(result.get("MD5")),
-            "authors": str(result.get("authors")),
+            "title": result.get("title"),
+            "MD5": result.get("MD5"),
+            "authors": result.get("authors"),
+            "topic": result.get("topic"),
+            "language": result.get("language"),
+            "extension": result.get("extension"),
+            "size": result.get("size"),
+            "coverReference": result.get("coverReference"),
         },
     }
 
     return request
 
 
-def build_batch_manticore_request(results: list[dict]) -> str:
+def build_batch_manticore_request(results: list[dict]) -> list:
     requests_list = []
     for result in results:
-        request = {
-            "index": "books",
-            "title": result.get("title"),
-            "md5": result.get("MD5"),
-            "authors": result.get("authors"),
-        }
+        request = build_single_manticore_request(result)
+        requests_list.append(request)
 
-    return json.dumps(requests_list)
+    return requests_list

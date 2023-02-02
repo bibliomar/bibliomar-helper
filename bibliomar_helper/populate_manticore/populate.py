@@ -10,6 +10,7 @@ from bibliomar_helper.populate_manticore.config import (
     connect_to_manticore,
 )
 from bibliomar_helper.populate_manticore.helper import (
+    build_batch_manticore_request,
     build_single_manticore_request,
     get_current_offset,
     results_to_entries,
@@ -36,10 +37,6 @@ def populate_manticore(topic: str):
 
     while True:
 
-        if offset > 101:
-
-            break
-
         sql = f"""
         SELECT * FROM {table} LIMIT %s OFFSET %s
         """
@@ -54,11 +51,8 @@ def populate_manticore(topic: str):
         results_as_models = results_to_entries(topic, results)
         print(f"Using {len(results_as_models)} of {len(results)} results.")
         print("Starting tasks...")
-
-        for result in results_as_models:
-            request = build_single_manticore_request(result)
-            print(request)
-            manticore_index.insert(request)
+        bulk_request = build_batch_manticore_request(results_as_models)
+        manticore_index.bulk(bulk_request)
 
         print(f"Finished saving books between {offset} and {offset + limit}.")
         print("Saving current offset to local database...")
