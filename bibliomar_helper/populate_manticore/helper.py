@@ -126,9 +126,7 @@ def build_single_manticore_request(result: dict) -> str:
         "coverReference": result.get("coverReference"),
     }
 
-    return """
-    INSERT INTO books(title, authors, MD5) VALUES ('{}', '{}', '{}');
-""".format(
+    return "INSERT INTO books(title, authors, MD5) VALUES ('{}', '{}', '{}');".format(
         request.get("title"), request.get("authors"), request.get("MD5")
     )
 
