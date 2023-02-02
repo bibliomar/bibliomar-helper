@@ -118,8 +118,8 @@ def build_single_manticore_request(
 ) -> dict:
     request = {
         "index": "books",
-        "title": result.get("title"),
         "doc": {
+            "title": result.get("title"),
             "MD5": result.get("MD5"),
             "authors": result.get("authors"),
             "topic": result.get("topic"),
