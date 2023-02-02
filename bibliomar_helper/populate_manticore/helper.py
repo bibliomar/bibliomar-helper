@@ -117,6 +117,7 @@ def save_current_offset(topic: str, new_offset: int):
 def build_single_manticore_request(
     result: dict,
 ) -> dict:
+
     request = {
         "index": "books",
         "id": result.get("id"),
@@ -125,10 +126,10 @@ def build_single_manticore_request(
             "MD5": result.get("MD5"),
             "authors": result.get("authors"),
             "topic": result.get("topic"),
-            "language": result.get("language"),
-            "extension": result.get("extension"),
-            "size": result.get("size"),
-            "coverReference": result.get("coverReference"),
+            "language": result.get("language") or "",
+            "extension": result.get("extension") or "",
+            "size": result.get("size") or 0,
+            "coverReference": result.get("coverReference") or "",
         },
     }
 
