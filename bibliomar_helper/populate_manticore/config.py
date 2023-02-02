@@ -6,8 +6,10 @@ from pymysql import connect
 from pymysql.cursors import DictCursor
 from meilisearch import Client
 from sqlite3 import Connection, connect as sqlite_connect
+import manticoresearch
 
 from bibliomar_helper.populate_meili.model import (
+    MANTICORECredentials,
     MYSQLCredentials,
     MEILICredentials,
 )
@@ -16,7 +18,7 @@ import os
 
 load_dotenv()
 mysql_credentials = MYSQLCredentials()  # type: ignore
-meili_credentials = MEILICredentials()  # type: ignore
+manticore_credentials = MANTICORECredentials()  # type: ignore
 
 
 def get_environ_limit():
@@ -57,17 +59,24 @@ def connect_to_mysql():
     return conn
 
 
-def configure_meili(client: Client):
-    client.create_index("books", {"primaryKey": "MD5"})
-    client.index("books").update_filterable_attributes(
-        ["authors", "title"]
+def configure_manticore(utilsApi: manticoresearch.UtilsApi):
+    utilsApi.sql(
+        """CREATE TABLE IF NOT EXISTS books (title text, 
+                 authors text, 
+                 MD5 text, 
+                 topic text, 
+                 extension text, 
+                 size text, 
+                 language text, 
+                 coverReference text)"""
     )
 
 
-def connect_to_meili():
-    credentials = meili_credentials
-    # master_key = credentials.MEILI_MASTER_KEY
-    # client = Client(credentials.MEILI_URL, api_key=master_key)
-    client = Client(credentials.MEILI_URL)
-    configure_meili(client)
+def connect_to_manticore() -> manticoresearch.ApiClient:
+    config = manticoresearch.Configuration(host=manticore_credentials.MANTICORE_URL)
+
+    client = manticoresearch.ApiClient(config)
+    utilsApi = manticoresearch.UtilsApi(client)
+    configure_manticore(utilsApi)
+
     return client

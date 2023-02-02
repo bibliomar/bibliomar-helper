@@ -16,10 +16,6 @@ class MEILICredentials(BaseSettings):
     MEILI_MASTER_KEY: str | None
 
 
-class MANTICORECredentials(BaseSettings):
-    MANTICORE_URL: str
-
-
 class SearchEntry(BaseModel):
     authors: str
     title: str
