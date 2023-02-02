@@ -37,6 +37,9 @@ def populate_manticore(topic: str):
 
     while True:
 
+        if offset > 1000:
+            break
+
         sql = f"""
         SELECT * FROM {table} LIMIT %s OFFSET %s
         """

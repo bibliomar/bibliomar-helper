@@ -68,6 +68,7 @@ def results_to_entries(topic: str, result_set: list[dict] | tuple[dict]) -> list
             continue
 
         result_as_model = {
+            "id": result.get("ID"),
             "authors": result.get("Author"),
             "title": result.get("Title"),
             "MD5": result.get("MD5"),
@@ -118,7 +119,7 @@ def build_single_manticore_request(
 ) -> dict:
     request = {
         "index": "books",
-        "id": 0,
+        "id": result.get("id"),
         "doc": {
             "title": result.get("title"),
             "MD5": result.get("MD5"),
