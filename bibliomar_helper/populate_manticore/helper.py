@@ -3,9 +3,6 @@
 
 
 import json
-from turtle import st
-
-from unittest import result
 from hurry.filesize import size, alternative
 from pydantic import ValidationError
 from bibliomar_helper.populate_meili.config import connect_to_sqlite
