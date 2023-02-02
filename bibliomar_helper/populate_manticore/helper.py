@@ -120,14 +120,9 @@ def build_single_manticore_request(
         "index": "books",
         "id": 0,
         "doc": {
-            "title": result.get("title"),
-            "MD5": result.get("MD5"),
-            "authors": result.get("authors"),
-            "topic": result.get("topic"),
-            "language": result.get("language"),
-            "extension": result.get("extension"),
-            "size": result.get("size"),
-            "coverReference": result.get("coverReference"),
+            "title": str(result.get("title")),
+            "MD5": str(result.get("MD5")),
+            "authors": str(result.get("MD5")),
         },
     }
 
