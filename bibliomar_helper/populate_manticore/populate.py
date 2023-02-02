@@ -59,7 +59,7 @@ def populate_manticore(topic: str):
             request = build_single_manticore_request(result)
             try:
                 manticore_index.insert(request)
-            except:
+            except Exception as e:
                 print("Exception while adding entry: ")
                 print(result)
                 print("Using request: ")
