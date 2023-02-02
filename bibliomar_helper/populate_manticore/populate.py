@@ -29,16 +29,12 @@ def populate_manticore(topic: str):
 
     cursor = mysql_conn.cursor()
     manticore_index = manticoresearch.IndexApi(manticore_conn)
-    manticore_utils = manticoresearch.UtilsApi(manticore_conn)
 
     table = topic if topic == "fiction" else "updated"
     # 10 minutes in milliseconds
     max_wait_timeout = 10 * 60 * 1000
 
     while True:
-
-        if offset > 1000:
-            break
 
         sql = f"""
         SELECT * FROM {table} LIMIT %s OFFSET %s
@@ -69,6 +65,10 @@ def populate_manticore(topic: str):
 
         print(f"Finished saving books between {offset} and {offset + limit}.")
         print("Saving current offset to local database...")
+        if len(results) < limit:
+            print("No more results to process in table ." + table)
+            break
+        
         save_current_offset(topic, offset)
         # print("Waiting for 60 seconds before next batch...")
         offset += limit
