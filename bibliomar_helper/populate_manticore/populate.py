@@ -42,6 +42,7 @@ def populate_manticore(topic: str):
 
         print(f"Using offset: {offset} for table {table}")
         cursor.execute(sql, (limit, offset))
+        
         results = cursor.fetchall()
         print("SQL query done.")
         if results is None or len(results) < limit:
