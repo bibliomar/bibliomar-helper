@@ -112,7 +112,7 @@ def save_current_offset(topic: str, new_offset: int):
         )
 
 
-def build_single_manticore_request(result: dict) -> dict:
+def build_single_manticore_request(result: dict) -> str:
     request = {
         "index": "books",
         "id": 0,
@@ -126,7 +126,11 @@ def build_single_manticore_request(result: dict) -> dict:
         "coverReference": result.get("coverReference"),
     }
 
-    return request
+    return """
+    INSERT INTO books(title, authors, MD5) VALUES ({}, {}, {})
+""".format(
+        request.get("title"), request.get("authors"), request.get("MD5")
+    )
 
 
 def build_batch_manticore_request(results: list[dict]) -> str:

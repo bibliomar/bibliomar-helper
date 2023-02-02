@@ -27,6 +27,7 @@ def populate_manticore(topic: str):
 
     cursor = mysql_conn.cursor()
     manticore_index = manticoresearch.IndexApi(manticore_conn)
+    manticore_utils = manticoresearch.UtilsApi(manticore_conn)
 
     table = topic if topic == "fiction" else "updated"
     # 10 minutes in milliseconds
@@ -34,7 +35,7 @@ def populate_manticore(topic: str):
 
     while True:
 
-        if offset > 100:
+        if offset > 101:
 
             break
 
@@ -56,7 +57,7 @@ def populate_manticore(topic: str):
         for result in results_as_models:
             request = build_single_manticore_request(result)
             print(request)
-            manticore_index.insert(request)
+            manticore_utils.sql(request)
 
         print(f"Finished saving books between {offset} and {offset + limit}.")
         print("Saving current offset to local database...")
