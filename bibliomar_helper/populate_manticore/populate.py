@@ -54,9 +54,10 @@ def populate_manticore(topic: str):
         results_as_models = results_to_entries(topic, results)
         print(f"Using {len(results_as_models)} of {len(results)} results.")
         print("Starting tasks...")
-        bulk_request = build_batch_manticore_request(results_as_models)
-        print(bulk_request)
-        manticore_index.bulk(bulk_request)
+
+        for result in results_as_models:
+            request = build_single_manticore_request(result)
+            manticore_index.insert(request)
 
         print(f"Finished saving books between {offset} and {offset + limit}.")
         print("Saving current offset to local database...")
