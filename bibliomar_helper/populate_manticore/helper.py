@@ -135,10 +135,13 @@ def build_single_manticore_request(
     return request
 
 
-def build_batch_manticore_request(results: list[dict]) -> list:
+def build_batch_manticore_request(results: list[dict]) -> str:
     requests_list = []
     for result in results:
-        request = build_single_manticore_request(result)
-        requests_list.append(request)
+        single_request = build_single_manticore_request(result)
+        bulk_request = {
+            "insert": single_request,
+        }
+        requests_list.append(bulk_request)
 
-    return requests_list
+    return json.dumps(requests_list)
