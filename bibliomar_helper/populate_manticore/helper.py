@@ -3,6 +3,7 @@
 
 
 import json
+import manticoresearch
 from hurry.filesize import size, alternative
 from pydantic import ValidationError
 from bibliomar_helper.populate_meili.config import connect_to_sqlite
@@ -112,10 +113,10 @@ def save_current_offset(topic: str, new_offset: int):
         )
 
 
-def build_single_manticore_request(result: dict) -> str:
+def build_single_manticore_request(
+    result: dict,
+) -> manticoresearch.InsertDocumentRequest:
     request = {
-        "index": "books",
-        "id": 0,
         "title": result.get("title"),
         "MD5": result.get("MD5"),
         "authors": result.get("authors"),
@@ -126,9 +127,11 @@ def build_single_manticore_request(result: dict) -> str:
         "coverReference": result.get("coverReference"),
     }
 
-    return "INSERT INTO books(title, authors, MD5) VALUES ('{}', '{}', '{}');".format(
-        request.get("title"), request.get("authors"), request.get("MD5")
+    insert_request = manticoresearch.InsertDocumentRequest(
+        index="books", id=0, doc=request
     )
+
+    return insert_request
 
 
 def build_batch_manticore_request(results: list[dict]) -> str:
