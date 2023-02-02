@@ -122,7 +122,7 @@ def build_single_manticore_request(
         "doc": {
             "title": str(result.get("title")),
             "MD5": str(result.get("MD5")),
-            "authors": str(result.get("MD5")),
+            "authors": str(result.get("authors")),
         },
     }
 
