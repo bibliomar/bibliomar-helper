@@ -64,6 +64,8 @@ def populate_manticore(topic: str):
                 print(result)
                 print("Using request: ")
                 print(request)
+                print("With exception: ")
+                print(e)
 
         print(f"Finished saving books between {offset} and {offset + limit}.")
         print("Saving current offset to local database...")
