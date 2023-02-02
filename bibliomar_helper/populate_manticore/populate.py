@@ -34,7 +34,7 @@ def populate_manticore(topic: str):
 
     while True:
 
-        if offset > 1000:
+        if offset > 100:
 
             break
 
