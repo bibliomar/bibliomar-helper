@@ -117,7 +117,8 @@ def build_single_manticore_request(
     result: dict,
 ) -> dict:
     request = {
-        "index": "books",
+        "index": "'books'",
+        "id": 0,
         "doc": {
             "title": result.get("title"),
             "MD5": result.get("MD5"),
