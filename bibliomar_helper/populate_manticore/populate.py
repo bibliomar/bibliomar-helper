@@ -3,6 +3,7 @@ import json
 import os
 import time
 from typing import Optional
+
 from bibliomar_helper.populate_manticore.config import (
     connect_to_mysql,
     get_environ_limit,
