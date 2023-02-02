@@ -112,7 +112,7 @@ def save_current_offset(topic: str, new_offset: int):
         )
 
 
-def build_single_manticore_request(result: dict) -> str:
+def build_single_manticore_request(result: dict) -> dict:
     request = {
         "index": "books",
         "title": result.get("title"),
@@ -125,7 +125,7 @@ def build_single_manticore_request(result: dict) -> str:
         "coverReference": result.get("coverReference"),
     }
 
-    return json.dumps(request)
+    return request
 
 
 def build_batch_manticore_request(results: list[dict]) -> str:
