@@ -53,7 +53,7 @@ def populate_manticore(topic: str):
         print("Starting tasks...")
 
         for result in results_as_models:
-            request = build_single_manticore_request(result)
+            request = build_single_manticore_request(result, topic)
             try:
                 manticore_index.insert(request)
             except Exception as e:
