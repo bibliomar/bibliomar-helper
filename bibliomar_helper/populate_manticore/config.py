@@ -66,9 +66,7 @@ def configure_manticore(utilsApi: manticoresearch.UtilsApi):
                  MD5 string, 
                  topic text, 
                  extension text, 
-                 size int, 
                  language text, 
-                 coverReference string)
                  
                  """
     )
