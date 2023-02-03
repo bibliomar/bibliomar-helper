@@ -63,11 +63,10 @@ def configure_manticore(utilsApi: manticoresearch.UtilsApi):
     utilsApi.sql(
         """CREATE TABLE IF NOT EXISTS books (id bigint, title text, 
                  authors text, 
-                 MD5 string, 
                  topic text, 
                  extension text, 
                  language text, 
-                 
+                 MD5 string, 
                  """
     )
 
