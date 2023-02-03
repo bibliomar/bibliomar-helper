@@ -115,9 +115,16 @@ def save_current_offset(topic: str, new_offset: int):
 
 
 def generate_manticore_id(md5: str) -> int:
+    """This functions takes a md5 hash as input and converts it to a 12 digit integer.
+
+    Args:
+        md5 (str): MD5 string
+
+    Returns:
+        int: 12 digit integer representation of the md5 hash
+    """
     md5_hex = str(int(md5, 16))
-    md5_int = int(md5_hex[:10])
-    print(md5_int)
+    md5_int = int(md5_hex[:12])
     return md5_int
 
 
