@@ -140,8 +140,6 @@ def build_single_manticore_request(result: dict, topic: str) -> dict:
             "topic": result.get("topic"),
             "language": result.get("language") or "",
             "extension": result.get("extension") or "",
-            "size": result.get("size") or 0,
-            "coverReference": result.get("coverReference") or "",
         },
     }
 
