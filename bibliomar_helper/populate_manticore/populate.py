@@ -55,8 +55,7 @@ def populate_manticore(topic: str):
         for result in results_as_models:
             request = build_single_manticore_request(result, topic)
             try:
-                # manticore_index.insert(request)
-                pass
+                manticore_index.insert(request)
             except Exception as e:
                 print("Exception while adding entry: ")
                 print(result)
