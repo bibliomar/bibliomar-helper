@@ -126,7 +126,6 @@ def generate_manticore_id(md5: str) -> int:
     """
     md5_hex = hashlib.md5(md5.encode("utf-8")).hexdigest()
     md5_int = int(md5_hex, 16)
-    print(md5_int)
     return md5_int
 
 
