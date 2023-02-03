@@ -114,33 +114,17 @@ def save_current_offset(topic: str, new_offset: int):
         )
 
 
-def generate_manticore_id(libgen_id: int, topic: str) -> int:
-    """There's no guarantee this function will generate actual random and unique IDs.
-    It just takes the original libgen table IDs and adds a prefix to them, so that they are unique between themselves.
-    e.g. entry with id 100 in the fiction table will differ from the entry with id 100 on the scitech table.
-
-    Args:
-        libgen_id (int): the original libgen table ID
-        topic (str): the table/topic name
-
-    Returns:
-        int: a int with a prefix that makes it unique between tables/topics
-    """
-    if topic == "fiction":
-        id_prefix = "9999999999"
-    else:
-        id_prefix = "8888888888"
-
-    id_str = f"{id_prefix}{libgen_id}"
-    id_int = int(id_str)
-    return id_int
+def generate_manticore_id(md5: str) -> int:
+    md5_int = int.from_bytes(md5.encode(), "big")
+    print(md5_int)
+    return md5_int
 
 
 def build_single_manticore_request(result: dict, topic: str) -> dict:
 
     request = {
         "index": "books",
-        "id": generate_manticore_id(result.get("id"), topic),  # type: ignore
+        "id": generate_manticore_id(result.get("MD5")),  # type: ignore
         "doc": {
             "title": result.get("title"),
             "MD5": result.get("MD5"),
