@@ -125,7 +125,6 @@ def generate_manticore_id(md5: str) -> int:
     """
     md5_hex = str(int(md5, 16))
     md5_int = int(md5_hex)
-    print(md5_int)
     return md5_int
 
 
