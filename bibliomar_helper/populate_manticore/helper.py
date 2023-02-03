@@ -123,7 +123,7 @@ def generate_manticore_id(md5: str) -> int:
     Returns:
         int: 16 digit integer representation of the md5 hash
     """
-    md5_int = int(md5, 32)
+    md5_int = int(md5, 16)
     print(md5_int)
     return md5_int
 
