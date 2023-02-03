@@ -127,9 +127,9 @@ def generate_manticore_id(libgen_id: int, topic: str) -> int:
         int: a int with a prefix that makes it unique between tables/topics
     """
     if topic == "fiction":
-        id_prefix = "11111111"
+        id_prefix = "9999999999"
     else:
-        id_prefix = "22222222"
+        id_prefix = "8888888888"
 
     id_str = f"{id_prefix}{libgen_id}"
     id_int = int(id_str)
