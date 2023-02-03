@@ -42,7 +42,7 @@ def populate_manticore(topic: str):
 
         print(f"Using offset: {offset} for table {table}")
         cursor.execute(sql, (limit, offset))
-        
+
         results = cursor.fetchall()
         print("SQL query done.")
         if results is None or len(results) < limit:
@@ -55,7 +55,8 @@ def populate_manticore(topic: str):
         for result in results_as_models:
             request = build_single_manticore_request(result, topic)
             try:
-                manticore_index.insert(request)
+                # manticore_index.insert(request)
+                pass
             except Exception as e:
                 print("Exception while adding entry: ")
                 print(result)
@@ -69,7 +70,7 @@ def populate_manticore(topic: str):
         if len(results) < limit:
             print("No more results to process in table ." + table)
             break
-        
+
         save_current_offset(topic, offset)
         # print("Waiting for 60 seconds before next batch...")
         offset += limit

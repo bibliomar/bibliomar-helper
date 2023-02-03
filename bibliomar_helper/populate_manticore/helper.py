@@ -115,7 +115,8 @@ def save_current_offset(topic: str, new_offset: int):
 
 
 def generate_manticore_id(md5: str) -> int:
-    md5_int = int.from_bytes(md5.encode(), "little")
+    md5_hex = str(int(md5, 16))
+    md5_int = int(md5_hex[:10])
     print(md5_int)
     return md5_int
 
